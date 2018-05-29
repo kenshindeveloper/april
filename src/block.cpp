@@ -21,19 +21,16 @@ namespace april
 		//std::cout << "-------------------------------" << std::endl;
 		for (Symbol* sym : locals)
         {
-            if (sym != nullptr)
-            {
-                // std::cout << "Eliminando locales..." << std::endl;
-                Symbol* aux = sym;
-                while (aux != nullptr)
-                {
-					//std::cout << "(I)eliminando: >>" << aux->name << "<< " << std::endl;
-                    Symbol* tmp = aux;
-                    aux = aux->prox;
-                    delete tmp; 
-                    tmp = nullptr;
-                }
-            }
+			// std::cout << "Eliminando locales..." << std::endl;
+			Symbol* aux = sym;
+			while (aux != nullptr)
+			{
+				//std::cout << "(I)eliminando: >>" << aux->name << "<< " << std::endl;
+				Symbol* tmp = aux;
+				aux = aux->prox;
+				delete tmp;
+				tmp = nullptr;
+			}
         }
         locals.clear();
 		//std::cout << "-------------------------------" << std::endl;

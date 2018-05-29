@@ -67,6 +67,8 @@ namespace april
                 context.addError();
                 return nullptr;
             }
+
+			
         }
         else if (ident_method->getName() == "is_eof")
         {

@@ -260,7 +260,7 @@ namespace april
         Symbol* open(std::string name, std::string type)
         {
             Symbol* root = new Symbol{};
-            root->name = "";
+            root->name = "%_open_%";
             root->type = Type::FILE;
 
             if (type == "r")
@@ -275,7 +275,8 @@ namespace april
         Symbol* is_open(Symbol* root)
         {
             Symbol* tmp = new Symbol{};
-            tmp->type = Type::BOOLEAN;
+			tmp->name = "%_bool_%";
+			tmp->type = Type::BOOLEAN;
             tmp->is_constant = true;
             tmp->is_variable = false;
 
@@ -297,26 +298,28 @@ namespace april
 
         Symbol* readline(Symbol* root)
         {
-            std::string text;
+			std::string* text = new std::string();
             
             if (root->value._file != nullptr && !root->value._file->eof())
-                std::getline(*root->value._file, text);
+                std::getline(*root->value._file, *text);
             else
-                text = "";
+                *text = "";
 
             Symbol* tmp = new Symbol{};
-            tmp->name = "";
+            tmp->name = "%_str_%";
             tmp->type = Type::STRING;
-            tmp->value._sval = &text;
+            tmp->value._sval = text;
             tmp->is_constant = true;
             tmp->is_variable = false;
+			//std::cout << "(I)text: " << *tmp << std::endl;
             return tmp;
         }
 
         Symbol* is_eof(Symbol* root)
         {
             Symbol* tmp = new Symbol{};
-            tmp->type = Type::BOOLEAN;
+			tmp->name = "%_bool_%";
+			tmp->type = Type::BOOLEAN;
             tmp->is_constant = true;
             tmp->is_variable = false;
             if (root->value._file != nullptr)
