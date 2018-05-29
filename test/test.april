@@ -1,0 +1,33 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: num pares en April                         ***
+// **                                                     ***
+// **********************************************************
+
+fn imprimir(x:list) {
+    for i in x {
+        println("i: "+str(i));
+    }
+}
+
+x := [15, 80, 9];
+
+//agregar valor en la lista
+for i in range(15, 30) {
+    x.append(i);
+}
+
+imprimir(x);
+
+println("index: "+str(x.index(80)));
+size := x.size();
+println("size: "+str(size));
+
+cont := 0;
+for cont < size {
+    if (cont < x.size()) {
+        x.remove(cont);
+    }
+    cont += 1;
+}

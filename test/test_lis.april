@@ -1,0 +1,21 @@
+var x:list = [0, 2, 3, [5, 6]];
+var z:list = [9, 8, 7];
+
+i := 0;
+for i < x.size()
+{
+    if i != 3
+    {
+        println(x[i]);
+    } 
+    i += 1;
+}
+
+println("==\n");
+i = 0;
+for i < z.size()
+{
+    println(z[i]);
+    i += 1;
+}
+//foo(x);

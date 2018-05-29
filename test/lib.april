@@ -1,0 +1,23 @@
+fn resta(a:int, b:int)
+{
+    a-b;
+}
+
+fn div (a:int, b:int)
+{
+    if (b == 0) 
+    { 
+        return -1; 
+    }
+    return a/b;
+}
+
+fn imprimir(l:list)
+{
+    i := 0;
+    for i < l.size()
+    {
+        println(l[i]);
+        i += 1;
+    }
+}

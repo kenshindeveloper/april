@@ -1,0 +1,7 @@
+*.exe
+.vscode
+*.o
+parser.cpp
+lexer.cpp
+test.cpp
+.build
