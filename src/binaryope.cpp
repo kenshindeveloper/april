@@ -72,7 +72,7 @@ namespace april
                 break;
         }
         
-        tmp->name = "_"+std::to_string(context.getCurrentBlock()->cont_tmp);
+        tmp->name = "%_"+std::to_string(context.getCurrentBlock()->cont_tmp);
         context.getCurrentBlock()->cont_tmp += 1;
         context.getCurrentBlock()->locals.push_back(tmp);
 

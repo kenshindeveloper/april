@@ -63,7 +63,7 @@ namespace april
             
             while (node != nullptr)
             {
-                itera->name = "";
+                itera->name = "%_tmp_%";
                 itera->type = node->type;
                 itera->value = node->value;
                 itera->is_constant = true;

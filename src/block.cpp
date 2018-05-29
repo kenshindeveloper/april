@@ -18,7 +18,7 @@ namespace april
         statements.clear();
 
         //std::cout << "symbol block size: " << locals.size() << std::endl;
-		std::cout << "-------------------------------" << std::endl;
+		//std::cout << "-------------------------------" << std::endl;
 		for (Symbol* sym : locals)
         {
             if (sym != nullptr)
@@ -27,7 +27,7 @@ namespace april
                 Symbol* aux = sym;
                 while (aux != nullptr)
                 {
-					std::cout << "(I)eliminando: >>" << aux->name << "<< " << std::endl;
+					//std::cout << "(I)eliminando: >>" << aux->name << "<< " << std::endl;
                     Symbol* tmp = aux;
                     aux = aux->prox;
                     delete tmp; 
@@ -36,7 +36,7 @@ namespace april
             }
         }
         locals.clear();
-		std::cout << "-------------------------------" << std::endl;
+		//std::cout << "-------------------------------" << std::endl;
 
         //std::cout << "fin destructor block" << std::endl;
     }

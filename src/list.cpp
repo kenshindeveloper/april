@@ -16,6 +16,7 @@ namespace april
     Symbol* List::codeGen(CodeGenContext& context)
     {
         Symbol* root = new Symbol{};
+		root->name = "%_tmp_%";
         root->in_list = true;
         root->type = Type::LIST;
         Symbol* aux = root;
@@ -33,7 +34,7 @@ namespace april
             else
             {
                 Symbol* _new = new Symbol{};
-                _new->name = "";
+                _new->name = "%_tmp_%";
                 _new->type = tmp->type;
                 _new->value = tmp->value;
                 _new->is_constant = true;

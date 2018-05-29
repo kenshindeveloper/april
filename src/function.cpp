@@ -80,7 +80,6 @@ namespace april
         context.getCurrentBlock()->locals = locals;
         last = block->codeGen(context); //recorre las declaraciones
         
-		std::cout << "num: " << block->locals.size() << std::endl;
 		//context.getCurrentBlock()->locals.clear();
 
         context.pop_block();

@@ -184,9 +184,19 @@ namespace april
                 sym_1->value = sym_0->value; 
             else
             {
-                sym_1->prox = sym_0->prox;
-                sym_1->down = sym_0->down;
-                sym_1->in_list = true;
+                //sym_1->prox = sym_0->prox;
+				if (sym_0->prox != nullptr)
+					sym_1->prox = list::clone(sym_0->prox);
+				else
+					sym_1->prox = nullptr;
+
+				//sym_1->down = sym_0->down;
+				if (sym_0->down != nullptr)
+					sym_1->down = list::clone(sym_0->down);
+				else
+					sym_1->down = nullptr;
+
+				sym_1->in_list = true;
             }
 
             ite_args++;
@@ -226,4 +236,5 @@ namespace april
         // std::cout << "sym: " << sym->value._ival << std::endl;
         return sym;
     }
+	
 }
