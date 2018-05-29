@@ -12,7 +12,7 @@ namespace april
 
     CodeGenContext::~CodeGenContext()
     {
-        // std::cout << ">> destructor CodeGenContext <<" << std::endl;
+         //std::cout << ">> destructor CodeGenContext <<" << std::endl;
         for (Symbol* global : globals)
         {
             if (global != nullptr)

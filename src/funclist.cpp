@@ -217,7 +217,8 @@ namespace april
             std::cout << ">> "<< *sym << std::endl;
 
             Symbol* tmp = new Symbol{};
-            tmp->type = Type::BOOLEAN;
+			tmp->name = "%_tmp_true";
+			tmp->type = Type::BOOLEAN;
             tmp->is_constant = true;
             tmp->is_variable = false;
             tmp->value._bval = true;
@@ -229,6 +230,7 @@ namespace april
             std::cout << *sym ;
 
             Symbol* tmp = new Symbol{};
+			tmp->name = "%_tmp_true";
             tmp->type = Type::BOOLEAN;
             tmp->is_constant = true;
             tmp->is_variable = false;
@@ -241,7 +243,8 @@ namespace april
             std::string _input;
             std::cout << "<< ";
             std::getline(std::cin, _input);
-            Symbol* tmp = new Symbol{};
+            
+			Symbol* tmp = new Symbol{};
             tmp->name = "";
             tmp->type = Type::STRING;
             tmp->value._sval =  new std::string(_input);

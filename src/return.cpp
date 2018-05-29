@@ -7,11 +7,7 @@ namespace april
 {
     Return::~Return()
     {
-        // if (expr != nullptr)
-        // {
-        //     delete expr;
-        //     expr = nullptr;
-        // }
+        
     }
 
     Symbol* Return::codeGen(CodeGenContext& context)

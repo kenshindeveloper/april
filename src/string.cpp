@@ -8,13 +8,13 @@ namespace april
 {
     Symbol* String::codeGen(CodeGenContext& context)
     {
-        Symbol* tmp = new Symbol();
-        tmp->name = "";
-        tmp->type = Type::STRING;
-        tmp->value._sval = &value;
-        tmp->is_constant = false;
-        context.getCurrentBlock()->locals.push_back(tmp);
-        return tmp;
-    }
+		Symbol* tmp = new Symbol();
+		tmp->name = "%_tmp_" + value;
+		tmp->type = Type::STRING;
+		tmp->value._sval = &value;
+		tmp->is_constant = false;
 
+		context.getCurrentBlock()->locals.push_back(tmp);
+		return tmp;
+    }
 }

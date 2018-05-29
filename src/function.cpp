@@ -7,13 +7,14 @@ namespace april
 {
     Function::~Function()
     {
+		//std::cout << "inicio destructor fn: " << ident->getName() << std::endl;
         if (is_tmp && last != nullptr)
         {
             delete last;
             last = nullptr;
         }
 
-        if (is_tmp)
+        /*if (is_tmp)
         {
             for (Symbol* s : locals)
             {
@@ -23,7 +24,7 @@ namespace april
                     s = nullptr;
                 }
             }
-        }
+        }*/
 
         if (!is_tmp && ident != nullptr)
         {
@@ -48,6 +49,8 @@ namespace april
                 }
             }
         }        
+		//std::cout << "fin destructor fn..." << std::endl;
+
     }
 
     Symbol* Function::codeGen(CodeGenContext& context)
@@ -77,21 +80,13 @@ namespace april
         context.getCurrentBlock()->locals = locals;
         last = block->codeGen(context); //recorre las declaraciones
         
-        // for (Symbol* s : context.getCurrentBlock()->locals)
-        //      delete s;
-        
+		std::cout << "num: " << block->locals.size() << std::endl;
+		//context.getCurrentBlock()->locals.clear();
+
         context.pop_block();
         context.setCurrentBlock(tmp_block);
         context.getCurrentBlock()->locals = tmp_locals;
         
-        for (Symbol* s : locals)
-        {
-            if (s != nullptr)
-            {
-                delete s;
-                s = nullptr;
-            } 
-        }
         locals.clear();
 
         block->stop = false;

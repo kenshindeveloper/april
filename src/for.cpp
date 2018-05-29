@@ -10,12 +10,6 @@ namespace april
             delete block;
             block = nullptr;
         }
-
-        if (expr != nullptr)
-        {
-            delete expr;
-            expr = nullptr;
-        }
     }
 
     Symbol* For::codeGen(CodeGenContext& context)

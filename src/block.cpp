@@ -6,7 +6,7 @@ namespace april
 {
     Block::~Block()
     {
-        // std::cout << "destructor Block" << std::endl;
+        //std::cout << "destructor Block" << std::endl;
         for (Statement* stmt: statements)
         {
             if (stmt != nullptr)
@@ -17,8 +17,9 @@ namespace april
         }
         statements.clear();
 
-        // std::cout << "symbol block" << std::endl;
-        for (Symbol* sym : locals)
+        //std::cout << "symbol block size: " << locals.size() << std::endl;
+		std::cout << "-------------------------------" << std::endl;
+		for (Symbol* sym : locals)
         {
             if (sym != nullptr)
             {
@@ -26,6 +27,7 @@ namespace april
                 Symbol* aux = sym;
                 while (aux != nullptr)
                 {
+					std::cout << "(I)eliminando: >>" << aux->name << "<< " << std::endl;
                     Symbol* tmp = aux;
                     aux = aux->prox;
                     delete tmp; 
@@ -34,8 +36,9 @@ namespace april
             }
         }
         locals.clear();
+		std::cout << "-------------------------------" << std::endl;
 
-        // std::cout << "fin destructor block" << std::endl;
+        //std::cout << "fin destructor block" << std::endl;
     }
 
     Symbol* Block::codeGen(CodeGenContext& context)

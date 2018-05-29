@@ -9,15 +9,14 @@ namespace april
 {
     VarDeclaration::~VarDeclaration()
     {
-        // std::cout << "des varde" << std::endl;
         if (type != nullptr)
             delete type;
         
         if (ident != nullptr)
             delete ident;
 
-        if (expr != nullptr)
-            delete expr;
+        /*if (expr != nullptr)
+            delete expr;*/
     }
 
     Symbol* VarDeclaration::codeGen(CodeGenContext& context)

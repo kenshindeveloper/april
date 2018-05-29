@@ -15,17 +15,13 @@ namespace april
         }
 
         Symbol* tmp = new Symbol{};
-        tmp->name = "";
+        tmp->name = "%_tmp_"+name;
         tmp->type = Type::BOOLEAN;
-        
-        if (name == "true")
-            tmp->value._bval = true;
-        else if(name == "false")
-            tmp->value._bval = false;
-        
+		tmp->value._bval = (name == "true") ? (true) : (false);
         tmp->is_constant = true;
         tmp->is_variable = false;
-        
+
+		context.getCurrentBlock()->locals.push_back(tmp);
         return tmp;       
     }
 }
