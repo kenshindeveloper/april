@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
             if (result)
                 std::cout << "Compilacion con errores\n" << std::endl;
 
-			//std::cout << "inicio del destructor del bloque principal..." << std::endl;
+			std::cout << "inicio del destructor del bloque principal..." << std::endl;
 
             if (programBlock != nullptr)
                 delete programBlock;

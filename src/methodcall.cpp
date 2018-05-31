@@ -137,9 +137,9 @@ namespace april
         {
             Identifier* tmp_ident = context.getStackFunc()->top()->getIdent();
             VarList* tmp_var_list = context.getStackFunc()->top()->getArgs();
-            Block* tmp_block =  context.getStackFunc()->top()->getBlock();
+            Block* tmp_block =  context.getStackFunc()->top()->getBlock()->clone();
             context.getStackFunc()->push(new Function{tmp_ident, tmp_var_list, tmp_block, true});
-        }
+		}
         else
         {
             if (context.getStackFunc() == nullptr) 
@@ -219,15 +219,14 @@ namespace april
                 // std::cout << "antes eliminando... " << context.getStackFunc()->top()->getName() << std::endl;
                 if (context.getStackFunc()->top()->isTmp())
                 {
-                    Function* tmp_func = context.getStackFunc()->top();
+                    /*Function* tmp_func = context.getStackFunc()->top();
                     delete tmp_func;
-                    tmp_func = nullptr;
+                    tmp_func = nullptr;*/
                 } 
                 context.getStackFunc()->pop();
             }
             else if (context.getStackFunc()->size() == 1)
             {
-                // std::cout << "eliminando... " << ident->getName() << std::endl;
                 context.getStackFunc()->pop();
                 delete context.getStackFunc();                
                 context.getStackFunc() = nullptr;

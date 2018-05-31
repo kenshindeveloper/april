@@ -13,7 +13,8 @@ namespace april
     {
         Symbol* size(Symbol*);
         Symbol* append(Symbol*, Symbol*);
-        Symbol* clone(Symbol*);
+		Symbol* clone(Symbol*);
+		Symbol* clone_syms(Symbol*);
         Symbol* index(Symbol*, Symbol*);
         Symbol* remove(Symbol*, Symbol*);
     }

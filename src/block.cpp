@@ -1,6 +1,6 @@
 #include "../headers/block.hpp"
 #include "../headers/codegencontext.hpp"
-
+#include "../headers/funclist.hpp"
 
 namespace april
 {
@@ -17,7 +17,6 @@ namespace april
         }
         statements.clear();
 
-        //std::cout << "symbol block size: " << locals.size() << std::endl;
 		//std::cout << "-------------------------------" << std::endl;
 		for (Symbol* sym : locals)
         {
@@ -34,6 +33,16 @@ namespace april
         }
         locals.clear();
 		//std::cout << "-------------------------------" << std::endl;
+
+		while (stack_tmp_block.size() > 0)
+		{
+			//std::cout << "ELIMINANDO" << std::endl;
+			Block* b = stack_tmp_block.top();
+			b->statements.clear();
+
+			delete b;
+			stack_tmp_block.pop();
+		}
 
         //std::cout << "fin destructor block" << std::endl;
     }
@@ -65,4 +74,17 @@ namespace april
 
         return last;
     }
+
+	Block* Block::clone()
+	{
+		Block* new_block = new Block{};
+		new_block->statements = statements;
+		new_block->type_scope = type_scope;
+
+		for (Symbol* sym : locals)
+			new_block->locals.push_back(list::clone(sym));
+
+		stack_tmp_block.push(new_block);
+		return new_block;
+	}
 }

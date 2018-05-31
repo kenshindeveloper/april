@@ -14,18 +14,6 @@ namespace april
             last = nullptr;
         }
 
-        /*if (is_tmp)
-        {
-            for (Symbol* s : locals)
-            {
-                if (s != nullptr)
-                {
-                    delete s;
-                    s = nullptr;
-                }
-            }
-        }*/
-
         if (!is_tmp && ident != nullptr)
         {
             delete ident;
@@ -50,7 +38,6 @@ namespace april
             }
         }        
 		//std::cout << "fin destructor fn..." << std::endl;
-
     }
 
     Symbol* Function::codeGen(CodeGenContext& context)
@@ -72,7 +59,7 @@ namespace april
 
     Symbol* Function::runCode(CodeGenContext& context)
     {
-        // std::cout << ">> ini fn: " << ident->getName() << " <<" << std::endl;
+        //std::cout << ">> run fn: " << ident->getName() << " <<" << std::endl;
         Block* tmp_block = context.getCurrentBlock();
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
         block->type_scope = BlockScope::FUNCTION;
@@ -80,8 +67,6 @@ namespace april
         context.getCurrentBlock()->locals = locals;
         last = block->codeGen(context); //recorre las declaraciones
         
-		//context.getCurrentBlock()->locals.clear();
-
         context.pop_block();
         context.setCurrentBlock(tmp_block);
         context.getCurrentBlock()->locals = tmp_locals;

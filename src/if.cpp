@@ -33,27 +33,44 @@ namespace april
             context.addError();
             return nullptr;
         }
-        // std::cout << "ini if: " <<sym_expr->value._bval << std::endl;
+
         if (sym_expr->value._bval == true)
         {
-            //  std::cout << "_then..." << std::endl;
             _then->type_scope = BlockScope::IF;
-
             _then->prev = context.getCurrentBlock();
-            context.setCurrentBlock(_then);
+            Block* tmp_block = context.getCurrentBlock();
+			context.setCurrentBlock(_then);
         
             result = _then->codeGen(context); 
             
-            context.popCurrentBlock();
+			if (context.getStackFunc() == nullptr || (context.getStackFunc() != nullptr && !context.getStackFunc()->top()->isTmp()))
+			{
+				context.popCurrentBlock();
+				_then->prev = nullptr;
+			}
+			/*else
+				_then->prev = tmp_block;*/
         }
         else if (_else != nullptr) 
         {
             _else->type_scope = BlockScope::IF;
             _else->prev = context.getCurrentBlock();
-            context.setCurrentBlock(_else);
+			Block* tmp_block = context.getCurrentBlock();
+			context.setCurrentBlock(_else);
 
             result = _else->codeGen(context);
-            context.popCurrentBlock();
+            
+			if (context.getStackFunc() == nullptr || (context.getStackFunc() != nullptr && !context.getStackFunc()->top()->isTmp()))
+			{
+				//std::cout << "chao" << std::endl;
+				context.popCurrentBlock();
+				_else->prev = nullptr;
+			}
+			else
+			{
+				//std::cout << "lolo" << std::endl;
+				_else->prev = tmp_block;
+			}
         }
 
         // if (result == nullptr)
