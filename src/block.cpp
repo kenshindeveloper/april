@@ -24,7 +24,6 @@ namespace april
 			Symbol* aux = sym;
 			while (aux != nullptr)
 			{
-				//std::cout << "(I)eliminando: >>" << aux->name << "<< " << std::endl;
 				Symbol* tmp = aux;
 				aux = aux->prox;
 				delete tmp;
