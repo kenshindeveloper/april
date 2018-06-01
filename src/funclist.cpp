@@ -244,7 +244,7 @@ namespace april
     {
         Symbol* println(Symbol* sym)
         {
-            std::cout << ">> "<< *sym << std::endl;
+            std::cout << *sym << std::endl;
 
             Symbol* tmp = new Symbol{};
 			tmp->name = "%_tmp_true";

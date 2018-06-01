@@ -48,8 +48,8 @@ namespace april
 				context.popCurrentBlock();
 				_then->prev = nullptr;
 			}
-			/*else
-				_then->prev = tmp_block;*/
+			else
+				_then->prev = tmp_block;
         }
         else if (_else != nullptr) 
         {
@@ -62,15 +62,11 @@ namespace april
             
 			if (context.getStackFunc() == nullptr || (context.getStackFunc() != nullptr && !context.getStackFunc()->top()->isTmp()))
 			{
-				//std::cout << "chao" << std::endl;
 				context.popCurrentBlock();
 				_else->prev = nullptr;
 			}
 			else
-			{
-				//std::cout << "lolo" << std::endl;
 				_else->prev = tmp_block;
-			}
         }
 
         // if (result == nullptr)

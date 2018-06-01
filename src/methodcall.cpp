@@ -135,6 +135,7 @@ namespace april
 
         if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
         {
+			//std::cout << ">>     entra NO vacio con: " << ident->getName() << std::endl;
             Identifier* tmp_ident = context.getStackFunc()->top()->getIdent();
             VarList* tmp_var_list = context.getStackFunc()->top()->getArgs();
             Block* tmp_block =  context.getStackFunc()->top()->getBlock()->clone();
@@ -142,6 +143,7 @@ namespace april
 		}
         else
         {
+			//std::cout << ">>     entra vacio con: " << ident->getName() << std::endl;
             if (context.getStackFunc() == nullptr) 
                 context.getStackFunc() = new std::stack<Function*>();
 
@@ -180,19 +182,21 @@ namespace april
                 return nullptr;
             }
 
-            if (sym_0->type != Type::LIST)
+			if (sym_0->type != Type::LIST)
+			{
                 sym_1->value = sym_0->value; 
+			}
             else
             {
                 //sym_1->prox = sym_0->prox;
 				if (sym_0->prox != nullptr)
-					sym_1->prox = list::clone(sym_0->prox);
+					sym_1->prox = list::clone_syms(sym_0->prox);
 				else
 					sym_1->prox = nullptr;
 
 				//sym_1->down = sym_0->down;
 				if (sym_0->down != nullptr)
-					sym_1->down = list::clone(sym_0->down);
+					sym_1->down = list::clone_syms(sym_0->down);
 				else
 					sym_1->down = nullptr;
 
@@ -216,15 +220,10 @@ namespace april
         {
             if (context.getStackFunc()->top()->getName() == ident->getName() && context.getStackFunc()->size() > 1)
             {
-                // std::cout << "antes eliminando... " << context.getStackFunc()->top()->getName() << std::endl;
-                if (context.getStackFunc()->top()->isTmp())
-                {
-                    /*Function* tmp_func = context.getStackFunc()->top();
-                    delete tmp_func;
-                    tmp_func = nullptr;*/
-                } 
-                context.getStackFunc()->pop();
-            }
+				bool flag = context.getStackFunc()->top()->isTmp();
+				context.getStackFunc()->pop();
+				if (flag) context.setCurrentBlock(context.getStackFunc()->top()->getBlock());
+			}
             else if (context.getStackFunc()->size() == 1)
             {
                 context.getStackFunc()->pop();

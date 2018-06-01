@@ -62,6 +62,7 @@ namespace april
         //std::cout << ">> run fn: " << ident->getName() << " <<" << std::endl;
         Block* tmp_block = context.getCurrentBlock();
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
+		//std::cout << "antes size: " << tmp_locals.size() << std::endl;
         block->type_scope = BlockScope::FUNCTION;
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
@@ -70,7 +71,8 @@ namespace april
         context.pop_block();
         context.setCurrentBlock(tmp_block);
         context.getCurrentBlock()->locals = tmp_locals;
-        
+		//std::cout << "despues size: " << tmp_locals.size() << std::endl;
+
         locals.clear();
 
         block->stop = false;

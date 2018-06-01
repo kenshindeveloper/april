@@ -46,6 +46,7 @@ namespace april
         
         block->type_scope = BlockScope::FOR;
         block->prev = context.getCurrentBlock();
+		Block* tmp_block = context.getCurrentBlock();
         context.setCurrentBlock(block);
        
         ident->codeGen(context);
@@ -70,7 +71,16 @@ namespace april
         }
 
         block->stop = false;
-        context.popCurrentBlock();
+        //context.popCurrentBlock();
+		//------------------------
+		if (context.getStackFunc() == nullptr || (context.getStackFunc() != nullptr && !context.getStackFunc()->top()->isTmp()))
+		{
+			context.popCurrentBlock();
+			block->prev = nullptr;
+		}
+		else
+			block->prev = tmp_block;
+
         // if (result == nullptr)
         //     std::cout << "result es NULO (FOR)" << std::endl;
         // else
