@@ -5,3 +5,4 @@ parser.cpp
 lexer.cpp
 test.cpp
 /build
+/build_x32

@@ -152,13 +152,13 @@ target_compile_definitions(april PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
 
 # We incorporate the CMake features provided by LLVM:
 
-if(MSVC)
-    if(NOT CMAKE_CL_64)
-        message(FATAL_ERROR "Currently only 64bit compilation is supported!")
-    else()
-        message("Is 64 bits!")
-    endif()
-endif()
+#if(MSVC)
+#    if(NOT CMAKE_CL_64)
+#        message(FATAL_ERROR "Currently only 64bit compilation is supported!")
+#    else()
+#        message("Is 64 bits!")
+#    endif()
+#endif()
 
 #enables C++ Exception
 if(MSVC)
