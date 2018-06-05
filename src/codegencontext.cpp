@@ -148,14 +148,6 @@ namespace april
         return Type::UNDEFINED;
     }
 
-    bool CodeGenContext::existFunction(std::string name)
-    {
-        if (functions.find(name) != functions.end())
-            return true;
-        
-        return false;
-    }
-
     bool CodeGenContext::deleteIdentLocals(std::string name)
     {
         

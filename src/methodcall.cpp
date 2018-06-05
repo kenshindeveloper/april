@@ -115,44 +115,64 @@ namespace april
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
 
-        if (!context.existFunction(ident->getName()))
+        if (!context.getCurrentBlock()->existFunction(ident->getName()))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+ident->getName()+"'no existe.\n");
             context.addError();
             return nullptr;
         }
 
-        if (args->size() != context.getFunctions()[ident->getName()]->getArgs()->size())
+
+        if (args->size() != context.getCurrentBlock()->getFunctions(ident->getName())->getArgs()->size())
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el numero de parametros no coinciden con la llamada a la funcion '"+ident->getName()+"'.\n");
             context.addError();
             return nullptr;
         }
 
-
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
 
-        if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
-        {
-			//std::cout << ">>     entra NO vacio con: " << ident->getName() << std::endl;
-            Identifier* tmp_ident = context.getStackFunc()->top()->getIdent();
-            VarList* tmp_var_list = context.getStackFunc()->top()->getArgs();
-            Block* tmp_block =  context.getStackFunc()->top()->getBlock()->clone();
-            context.getStackFunc()->push(new Function{tmp_ident, tmp_var_list, tmp_block, true});
+  //      if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
+  //      {
+		//	//std::cout << ">>     entra NO vacio con: " << ident->getName() << std::endl;
+  //          Identifier* tmp_ident = context.getStackFunc()->top()->getIdent();
+  //          VarList* tmp_var_list = context.getStackFunc()->top()->getArgs();
+  //          Block* tmp_block =  context.getStackFunc()->top()->getBlock()->clone();
+  //          context.getStackFunc()->push(new Function{tmp_ident, tmp_var_list, tmp_block, true});
+		//}
+  //      else
+  //      {
+		//	//std::cout << ">>     entra vacio con: " << ident->getName() << std::endl;
+  //          if (context.getStackFunc() == nullptr) 
+  //              context.getStackFunc() = new std::stack<Function*>();
+
+  //          context.getStackFunc()->push(context.getCurrentBlock()->getFunctions(ident->getName()));
+  //      }
+
+
+		if (context.getStackFunc() == nullptr)
+			context.getStackFunc() = new std::stack<Function*>();
+
+
+		Block* tmp_block = nullptr;
+		if (context.getStackFunc()->size() > 0 && context.getStackFunc()->top()->getName() == ident->getName())
+		{
+			tmp_block = context.getStackFunc()->top()->getBlock();
 		}
-        else
-        {
-			//std::cout << ">>     entra vacio con: " << ident->getName() << std::endl;
-            if (context.getStackFunc() == nullptr) 
-                context.getStackFunc() = new std::stack<Function*>();
+		
 
-            context.getStackFunc()->push(context.getFunctions()[ident->getName()]);
-        }
+		context.getStackFunc()->push(context.getCurrentBlock()->getFunctions(ident->getName()));
+		context.getStackFunc()->top()->getLocals().clear();
+
+		std::vector<Symbol*> tmp_vector;
+		if (tmp_block != nullptr)
+			for (Symbol* sym : tmp_block->locals)
+				tmp_vector.push_back(sym);
 
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
-        VarList* var_list = context.getFunctions()[ident->getName()]->getArgs();
+        VarList* var_list = context.getCurrentBlock()->getFunctions(ident->getName())->getArgs();
         ExpressionList::iterator ite_args = args->begin();
         VarList::iterator ite_para_fn = var_list->begin();
         Symbol* sym_0 = nullptr;
@@ -183,18 +203,14 @@ namespace april
             }
 
 			if (sym_0->type != Type::LIST)
-			{
                 sym_1->value = sym_0->value; 
-			}
-            else
+			else
             {
-                //sym_1->prox = sym_0->prox;
 				if (sym_0->prox != nullptr)
 					sym_1->prox = list::clone_syms(sym_0->prox);
 				else
 					sym_1->prox = nullptr;
 
-				//sym_1->down = sym_0->down;
 				if (sym_0->down != nullptr)
 					sym_1->down = list::clone_syms(sym_0->down);
 				else
@@ -208,6 +224,9 @@ namespace april
         }
         
         Symbol* sym = context.getStackFunc()->top()->runCode(context);
+
+		if (tmp_block != nullptr)
+			context.getStackFunc()->top()->getBlock()->locals = tmp_vector;
 
         if (sym == nullptr)
         {

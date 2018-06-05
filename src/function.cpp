@@ -43,15 +43,33 @@ namespace april
     Symbol* Function::codeGen(CodeGenContext& context)
     {
         
-        if (context.existFunction(ident->getName()))
+        if (context.getCurrentBlock()->existFunction(ident->getName()))
         {
             printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+ident->getName()+"' ya existe.\n");
             context.addError();
             return nullptr;
         }
         
-        if (!context.existFunction(ident->getName()))
-            context.addFunction(ident->getName(), this);
+		if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
+		{
+			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '" + ident->getName() + "' no se puede declarar dentro del bloque.\n");
+			context.addError();
+			return nullptr;
+		}
+
+		context.getCurrentBlock()->addFunction(ident->getName(), this);
+
+		Block* aux = context.getCurrentBlock();
+		while (aux != nullptr)
+		{
+			CallFunctionList::iterator itera = aux->getFunctions().begin();
+
+			for (; itera != aux->getFunctions().end(); itera++)
+				block->getFunctions()[itera->first] = itera->second;
+
+			aux = aux->prev;
+		}
+
 
         last = new Symbol{};
         return last;
@@ -59,10 +77,8 @@ namespace april
 
     Symbol* Function::runCode(CodeGenContext& context)
     {
-        //std::cout << ">> run fn: " << ident->getName() << " <<" << std::endl;
         Block* tmp_block = context.getCurrentBlock();
         std::vector<Symbol*> tmp_locals = context.getCurrentBlock()->locals;
-		//std::cout << "antes size: " << tmp_locals.size() << std::endl;
         block->type_scope = BlockScope::FUNCTION;
         context.push_block(block);
         context.getCurrentBlock()->locals = locals;
@@ -71,12 +87,10 @@ namespace april
         context.pop_block();
         context.setCurrentBlock(tmp_block);
         context.getCurrentBlock()->locals = tmp_locals;
-		//std::cout << "despues size: " << tmp_locals.size() << std::endl;
 
         locals.clear();
 
         block->stop = false;
-        // std::cout << ">> fin fn: " << ident->getName() << " <<" << std::endl;
         return last;
     }
 

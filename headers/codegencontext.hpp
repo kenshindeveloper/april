@@ -11,7 +11,7 @@
 
 namespace april
 {
-    using CallFunctionList = std::map<std::string, Function*>;
+    
 
     enum class Scope
     {
@@ -28,7 +28,6 @@ namespace april
             Block* current_block;
             std::stack<Block*> stack_block;
             int errors;
-            CallFunctionList functions;
             Function* current_function;
             std::stack<Function*>* func_stack;
             std::vector<Symbol*> globals;
@@ -51,9 +50,6 @@ namespace april
             void setCurrentBlock(Block*);
             void popCurrentBlock();
             std::stack<Block*>& getStackBlock() { return stack_block; }
-            CallFunctionList& getFunctions() { return functions; }
-            void addFunction(std::string name, Function* function) { functions[name] = function; }
-            bool existFunction(std::string);
             bool deleteIdentLocals(std::string);
             void setCurrentFunction(Function* func) { current_function = func; }
             Function*& getCurrentFunction() { return current_function; }

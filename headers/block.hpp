@@ -4,12 +4,16 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <map>
 
 #include "expression.hpp"
 #include "statement.hpp"
 
 namespace april
 {
+	class Function;
+	using CallFunctionList = std::map<std::string, Function*>;
+
     enum class BlockScope
     {
         FOR,
@@ -22,7 +26,8 @@ namespace april
     {
 		private:			
 			std::stack<Block*> stack_tmp_block;
-        
+			CallFunctionList functions;
+
 		public:
             std::vector<Statement*> statements;
             std::vector<Symbol*> locals;
@@ -36,6 +41,10 @@ namespace april
             ~Block();
             virtual Symbol* codeGen(CodeGenContext&);
 			Block* clone();
+			Function* getFunctions(std::string&);
+			CallFunctionList& getFunctions() { return functions; }
+			void addFunction(std::string name, Function* function) { functions[name] = function; }
+			bool existFunction(std::string);
     };
 }
 

@@ -79,11 +79,41 @@ namespace april
 		Block* new_block = new Block{};
 		new_block->statements = statements;
 		new_block->type_scope = type_scope;
+		new_block->functions = functions;
 
 		for (Symbol* sym : locals)
 			new_block->locals.push_back(list::clone(sym));
 
 		stack_tmp_block.push(new_block);
 		return new_block;
+	}
+
+	bool Block::existFunction(std::string name)
+	{
+		Block* aux = this;
+
+		while (aux != nullptr)
+		{
+			if (aux->functions.find(name) != aux->functions.end())
+				return true;
+			aux = aux->prev;
+		}
+
+		return false;
+	}
+
+	Function* Block::getFunctions(std::string& name)
+	{
+		Block* aux = this;
+
+		while (aux != nullptr)
+		{
+			if (aux->functions.find(name) != aux->functions.end())
+				return aux->functions[name];
+			
+			aux = aux->prev;
+		}
+
+		return nullptr;
 	}
 }
