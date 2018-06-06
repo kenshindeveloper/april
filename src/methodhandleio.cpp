@@ -28,9 +28,10 @@ namespace april
 
         if (args->size() == 0 || args->size() > 1)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numeros de parametros incorrectos '"+ident_method->getName()+"' .\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         Symbol* tmp = nullptr;
@@ -39,16 +40,18 @@ namespace april
     
         if (sym_arg == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: en el pase de parametros '"+ident_method->getName()+"'.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         if (sym_arg->type == Type::LIST || sym_arg->type == Type::LIST_DOWN || sym_arg->type == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede convertir el tipo de dato del parametro '"+ident_method->getName()+"'.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 2, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         if (ident_method->getName() == "println")
@@ -61,9 +64,10 @@ namespace april
         }
         else
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el nombre '"+ident_method->getName()+"' no esta definida.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 134, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         return tmp;

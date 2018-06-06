@@ -5,7 +5,6 @@ namespace april
 {
     List::~List()
     {
-        // std::cout << "destructor lista" << std::endl;
         for (Expression* expr : *expressions)
         {
             delete expr;

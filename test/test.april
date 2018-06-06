@@ -1,43 +1,24 @@
-fn main()
-{
-	var x:string;
-    var y:string;
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: fibonacci en April                         ***
+// **                                                     ***
+// **********************************************************
 
-    x = "x";
-    y = "x";
-
-    if (x == y)
-    {
-        println("x == y"+" x=" + x+ " y=" + y);
-    }
-
-    x = "x";
-    y = "y";
-    if (x != y)
-    {
-        println(""+"x != y"+" x="+ x +" y="+y);
-    }
-
-    if (x <= y)
-    {
-        println(""+"x <= y"+" x=" + x+" y=" + y);
-    }
-    
-    if (x >= y)
-    {
-        println(""+"x >= y"+" x=" + x+" y=" + y);
-    }
-    
-    if (x < y)
-    {
-        println(""+"x > y"+ " x=" + x+ " y=" + y);
-    }
-
-    if (x > y)
-    {
-        println(""+"x > y"+ " x=" + x+ " y=" + y);
-    }
-
-
+fn foo(a:int) {
+	if a > 5 {
+		return 6;
+	}
+	else
+	{
+		println("top: "+str(a));
+		foo(a+1);
+		println("down: "+str(a));
+	}
 }
+
+fn main() {
+	foo(0);
+}
+
 main();

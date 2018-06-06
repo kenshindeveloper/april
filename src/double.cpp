@@ -6,6 +6,7 @@ namespace april
     Symbol* Double::codeGen(CodeGenContext& context)
     {
         Symbol* tmp = new Symbol();
+
         tmp->name = "%_tmp_"+std::to_string(value);
         tmp->type = Type::DOUBLE;
         tmp->value._dval = value;

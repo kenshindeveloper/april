@@ -19,32 +19,36 @@ namespace april
             expr_arg = args->back();
         else
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         Symbol* sym_arg = expr_arg->codeGen(context);
         
         if (sym_arg == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede convertir el tipo de dato - apuntador nullo.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
         
         if (sym_arg->type == Type::BOOLEAN || sym_arg->type == Type::LIST || sym_arg->type == Type::LIST_DOWN || sym_arg->type == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede convertir el tipo de dato.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 133, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         if (ident_method->getName() != "str" && (sym_arg->type == Type::STRING  &&  !(string::isNumber(sym_arg))))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede castear letras a numeros.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 42, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
         }
 
         Symbol* tmp = nullptr;
@@ -62,16 +66,18 @@ namespace april
                 tmp = cast::toInt(sym_arg);
             else    
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: toInt(arg); no castea un 'arg' de tipo Double a int.\n");
-                context.addError();
-                return nullptr;    
+				if (context.getError() == 0)
+					return Error::call(context, 42, april_errors->file_name, april_errors->line, "");
+				else
+					return nullptr;
             }
         } 
         else
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el nombre '"+ident_method->getName()+"' no esta definida como metodo en el tipo string.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 134, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
         }
 
         return tmp;

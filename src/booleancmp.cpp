@@ -19,9 +19,10 @@ namespace april
 
         if (sym_left->type == Type::UNDEFINED || sym_right->type == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: Variables indefinidas.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 32, april_errors->file_name, april_errors->line, "");
+			else
+	            return nullptr;
         }
 
         switch (ope)
@@ -56,8 +57,6 @@ namespace april
                 tmp->value._bval = *sym_left > *sym_right;
                 break;
         }
-
-        //std::cout << "result-> " << *tmp << std::endl;
 
         return tmp;
     }

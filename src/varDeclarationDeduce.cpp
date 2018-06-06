@@ -24,23 +24,26 @@ namespace april
     {
         if (context.existIdenGlobals(ident->getName()) || context.existIdenLocals(ident->getName()))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' ya existe.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 1, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         Symbol* sym_expr = expr->codeGen(context);
 
         if (sym_expr == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula.\n");
-            context.addError();
-            return nullptr; 
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         if (sym_expr->type == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato no esta definido.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 61, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
 
         Symbol* sym = new Symbol{};

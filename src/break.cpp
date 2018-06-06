@@ -10,7 +10,6 @@ namespace april
         Integer* i = new Integer{1};
         Symbol* result = i->codeGen(context);
         context.stopBreakBlock();
-        //std::cout << "result (Break): " << *result << std::endl;
         return result;
     }
 }

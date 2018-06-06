@@ -24,9 +24,10 @@ namespace april
         Symbol* symbol = nullptr;
         if ((context.existIdenGlobals(ident->getName()) != nullptr) || (context.scope_type == Scope::BLOCK)?(context.existIdenLocals(ident->getName())):(context.getCurrentFunction()->existIdenLocals(ident->getName())))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' ya existe\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 1, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         
         ident->codeGen(context);
@@ -37,9 +38,10 @@ namespace april
 
         if (context.typeOf(type->getName()) == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato indefinido.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 61, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         
         symbol->type = context.typeOf(type->getName());
@@ -49,7 +51,6 @@ namespace april
             Assignment* assig = new Assignment{ident, expr};
             symbol = assig->codeGen(context);            
         }
-        //std::cout<< "VARDECLARATION -> "<< symbol->name <<" - "<< *symbol <<std::endl;
         
         return symbol;
     }

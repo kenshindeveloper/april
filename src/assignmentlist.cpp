@@ -12,12 +12,13 @@ namespace april
 
     Symbol* AssignmentList::codeGen(CodeGenContext& context)
     {
-        if (expr == nullptr || expr_assig == nullptr)
-        {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede establecer la asignacion, expresion nula.\n");
-            context.addError();
-            return nullptr;
-        }
+		if (expr == nullptr || expr_assig == nullptr)
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 31, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
 
         Symbol* sym_expr = expr->codeGen(context);
         Symbol* sym_assig = expr_assig->codeGen(context);

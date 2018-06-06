@@ -12,24 +12,25 @@ namespace april
 
     Symbol* Return::codeGen(CodeGenContext& context)
     {
-        // std::cout << ">> ini return <<" << std::endl;
         Symbol* sym_expr = expr->codeGen(context);
         
         if (sym_expr == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
         }
 
         if (sym_expr->type == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+sym_expr->name+"' no esta definida.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 32, april_errors->file_name, april_errors->line, sym_expr->name);
+			else
+				return nullptr;
         }
+
         context.stopRootBlock();
-        
         return sym_expr;
     }
 }

@@ -151,7 +151,6 @@ namespace april
             Symbol* tmp = aux->prox;
             aux->prox = aux->prox->prox;
             delete tmp;
-
             return root;
         } 
     }

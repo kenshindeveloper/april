@@ -8,6 +8,7 @@
 #include "identifier.hpp"
 #include "function.hpp"
 #include "funclist.hpp"
+#include "error.hpp"
 
 namespace april
 {
@@ -45,6 +46,7 @@ namespace april
             Symbol* existIdenGlobals(std::string);
             Type typeOf(std::string);
             void addError() { ++errors; }
+			int& getError() { return errors; }
             void push_block(Block*);
             void pop_block();
             void setCurrentBlock(Block*);

@@ -9,6 +9,7 @@ namespace april
     Symbol* String::codeGen(CodeGenContext& context)
     {
 		Symbol* tmp = new Symbol();
+
 		tmp->name = "%_tmp_" + value;
 		tmp->type = Type::STRING;
 		tmp->value._sval = &value;

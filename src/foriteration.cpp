@@ -31,15 +31,17 @@ namespace april
         Symbol* sym_expr = expr->codeGen(context);
         if (sym_expr == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula en el bucle for.\n");
-            context.addError();
-            return nullptr;
-        }
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
         if (sym_expr->type != Type::LIST)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la expresion debe ser iterable.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 124, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
         }
 
         Symbol* result = nullptr;
@@ -51,13 +53,16 @@ namespace april
        
         ident->codeGen(context);
         Symbol* sym_ident = context.findIdentLocals(ident->getName());
-        if (sym_ident == nullptr)
+        
+		if (sym_ident == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tmp nula.\n");
-            context.addError();
-            return nullptr;
-        }
-        Symbol* sym_tmp = sym_expr->prox;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
+        
+		Symbol* sym_tmp = sym_expr->prox;
         while (sym_tmp != nullptr && !block->stop)
         {
             sym_ident->type = sym_tmp->type;
@@ -80,11 +85,6 @@ namespace april
 		}
 		else
 			block->prev = tmp_block;
-
-        // if (result == nullptr)
-        //     std::cout << "result es NULO (FOR)" << std::endl;
-        // else
-        //     std::cout << "result (FOR): " << *result << std::endl;
 
         return result; 
     }

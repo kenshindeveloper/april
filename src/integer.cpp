@@ -6,6 +6,7 @@ namespace april
     Symbol* Integer::codeGen(CodeGenContext& context)
     {
         Symbol* tmp = new Symbol{};
+
         tmp->name = "%_tmp_"+std::to_string(value);
         tmp->type = Type::INTEGER;
         tmp->value._ival = value;

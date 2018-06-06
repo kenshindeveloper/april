@@ -52,6 +52,7 @@ set(SOURCES_COMMON
             src/break.cpp
             src/codegencontext.cpp
             src/double.cpp
+            src/error.cpp
             src/exprstatement.cpp
             src/for.cpp
             src/foriteration.cpp
@@ -69,6 +70,7 @@ set(SOURCES_COMMON
             src/methodhandlelist.cpp
             src/methodhandlestring.cpp
             src/methodstruct.cpp
+            src/msg.cpp
             src/not.cpp
             src/return.cpp
             src/string.cpp
@@ -93,6 +95,7 @@ set(HEADER_COMMON
             headers/break.hpp
             headers/codegencontext.hpp
             headers/double.hpp
+            headers/error.hpp
             headers/expression.hpp
             headers/exprstatement.hpp
             headers/for.hpp
@@ -111,6 +114,7 @@ set(HEADER_COMMON
             headers/methodhandlelist.hpp
             headers/methodhandlestring.hpp
             headers/methodstruct.hpp
+            headers/msg.hpp
             headers/node.hpp
             headers/not.hpp
             headers/return.hpp

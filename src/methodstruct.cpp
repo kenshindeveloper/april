@@ -12,16 +12,18 @@ namespace april
     {   
         if (ident_var == nullptr && expr_var == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: ident y expr no definidos.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         if (ident_var != nullptr && !context.existIdenLocals(ident_var->getName()))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: (I) la variable '"+ident_var->getName()+"' no esta definida.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         Symbol* sym_expr = nullptr;
@@ -60,9 +62,10 @@ namespace april
         }
         else
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no existe el metodo dentro del tipo de dato.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 134, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         return tmp;

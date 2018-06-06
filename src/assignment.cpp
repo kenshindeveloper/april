@@ -12,29 +12,32 @@ namespace april
 
     Symbol* Assignment::codeGen(CodeGenContext& context)
     {
-        if (ident == nullptr)
-        {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: identificador nulo en la operacion de asignacion.\n");
-            context.addError();
-            return nullptr;
-        }
+		if (ident == nullptr)
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 31, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
        
-        if (ident != nullptr && !context.existIdenLocals(ident->getName()))
-        {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable '"+ident->getName()+"' no definida.\n");
-            context.addError();
-            return nullptr;
-        }
+		if (ident != nullptr && !context.existIdenLocals(ident->getName()))
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 21, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
+		}
         
         Symbol* symbol = context.findIdentLocals(ident->getName());
         Symbol* sym_expr = expr->codeGen(context);
 
-        if ((symbol->type != sym_expr->type) && !(symbol->type == Type::DOUBLE && sym_expr->type == Type::INTEGER))
-        {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede establecer la asignacion, tipos de datos distintos.\n");
-            context.addError();
-            return nullptr;
-        }
+		if ((symbol->type != sym_expr->type) && !(symbol->type == Type::DOUBLE && sym_expr->type == Type::INTEGER))
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 23, april_errors->file_name, april_errors->line, "name: " + symbol->name);
+			else
+				return nullptr;
+		}
 
         if (symbol->type == Type::DOUBLE && sym_expr->type == Type::INTEGER)
             symbol->value._dval = sym_expr->value._ival;

@@ -21,9 +21,10 @@ namespace april
             Symbol* tmp = method_handle_io->codeGen(context);
             if (tmp == nullptr)
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula en la llamada del metodo '"+ident->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 6, april_errors->file_name, april_errors->line, ident->getName());
+				else
+					return nullptr;
             }
             delete method_handle_io;
             method_handle_io = nullptr;
@@ -37,9 +38,10 @@ namespace april
             Symbol* tmp = mothod_handle_cast->codeGen(context);
             if (tmp == nullptr)
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula en la llamada del metodo '"+ident->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 6, april_errors->file_name, april_errors->line, ident->getName());
+				else
+					return nullptr;
             }
             delete mothod_handle_cast;
             mothod_handle_cast = nullptr;
@@ -55,9 +57,10 @@ namespace april
                 Symbol* type = (*args)[1]->codeGen(context);
                 if (name->type != Type::STRING || type->type != Type::STRING)
                 {
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
-                    context.addError();
-                    return nullptr;
+					if (context.getError() == 0)
+						return Error::call(context, 133, april_errors->file_name, april_errors->line, ident->getName());
+					else
+						return nullptr;
                 }
 
                 Symbol* tmp = file::open(*name->value._sval, *type->value._sval);
@@ -67,9 +70,10 @@ namespace april
             }
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident->getName());
+				else
+					return nullptr;
             }
         }
         else if (ident->getName() == "range")
@@ -79,13 +83,12 @@ namespace april
                 Symbol* last = (*args)[0]->codeGen(context);
                 if (last->type != Type::INTEGER)
                 {
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
-                    context.addError();
-                    return nullptr;
+					if (context.getError() == 0)
+						return Error::call(context, 133, april_errors->file_name, april_errors->line, ident->getName());
+					else
+						return nullptr;
                 }
                 Symbol* tmp = lib::range(last);
-                // context.getCurrentBlock()->locals.push_back(tmp); //OJO--> la lista si no se le asigna a una variable queda colgando en RAM
-                
                 return tmp;
             }
             else if (args->size() == 2)
@@ -94,20 +97,20 @@ namespace april
                 Symbol* last = (*args)[1]->codeGen(context);
                 if (first->type != Type::INTEGER || last->type != Type::INTEGER)
                 {
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
-                    context.addError();
-                    return nullptr;
+					if (context.getError() == 0)
+						return Error::call(context, 133, april_errors->file_name, april_errors->line, ident->getName());
+					else
+						return nullptr;
                 }
                 Symbol* tmp = lib::range(first, last);
-                // context.getCurrentBlock()->locals.push_back(tmp);//OJO-->la lista si no se le asigna a una variable queda colgando en RAM
-
                 return tmp;
             }
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident->getName()+"'.\n");
-                context.addError();
-                return nullptr;   
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident->getName());
+				else
+					return nullptr;
             }
         }     
 
@@ -117,41 +120,41 @@ namespace april
 
         if (!context.getCurrentBlock()->existFunction(ident->getName()))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+ident->getName()+"'no existe.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 134, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
 
 
         if (args->size() != context.getCurrentBlock()->getFunctions(ident->getName())->getArgs()->size())
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el numero de parametros no coinciden con la llamada a la funcion '"+ident->getName()+"'.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 132, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
 
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
 
-  //      if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
-  //      {
-		//	//std::cout << ">>     entra NO vacio con: " << ident->getName() << std::endl;
-  //          Identifier* tmp_ident = context.getStackFunc()->top()->getIdent();
-  //          VarList* tmp_var_list = context.getStackFunc()->top()->getArgs();
-  //          Block* tmp_block =  context.getStackFunc()->top()->getBlock()->clone();
-  //          context.getStackFunc()->push(new Function{tmp_ident, tmp_var_list, tmp_block, true});
-		//}
-  //      else
-  //      {
-		//	//std::cout << ">>     entra vacio con: " << ident->getName() << std::endl;
-  //          if (context.getStackFunc() == nullptr) 
-  //              context.getStackFunc() = new std::stack<Function*>();
+        if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
+        {
+            Identifier* tmp_ident = context.getStackFunc()->top()->getIdent();
+            VarList* tmp_var_list = context.getStackFunc()->top()->getArgs();
+            Block* tmp_block =  context.getStackFunc()->top()->getBlock()->clone();
+            context.getStackFunc()->push(new Function{tmp_ident, tmp_var_list, tmp_block, true});
+		}
+        else
+        {
+            if (context.getStackFunc() == nullptr) 
+                context.getStackFunc() = new std::stack<Function*>();
 
-  //          context.getStackFunc()->push(context.getCurrentBlock()->getFunctions(ident->getName()));
-  //      }
+            context.getStackFunc()->push(context.getCurrentBlock()->getFunctions(ident->getName()));
+        }
 
 
-		if (context.getStackFunc() == nullptr)
+		/*if (context.getStackFunc() == nullptr)
 			context.getStackFunc() = new std::stack<Function*>();
 
 
@@ -168,7 +171,7 @@ namespace april
 		std::vector<Symbol*> tmp_vector;
 		if (tmp_block != nullptr)
 			for (Symbol* sym : tmp_block->locals)
-				tmp_vector.push_back(sym);
+				tmp_vector.push_back(sym);*/
 
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
@@ -190,16 +193,18 @@ namespace april
             
             if (sym_0 == nullptr || sym_1 == nullptr)
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: en codegen de methodcall.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 6, april_errors->file_name, april_errors->line, ident->getName());
+				else
+					return nullptr;
             }
 
             if ((sym_0->type != sym_1->type) && !(sym_0->type == Type::INTEGER && sym_1->type == Type::DOUBLE)) //FALTA VALIDAR DOUBLE
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de parametros no coinciden con la llamada a la funcion '"+ident->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 133, april_errors->file_name, april_errors->line, ident->getName());
+				else
+					return nullptr;
             }
 
 			if (sym_0->type != Type::LIST)
@@ -225,14 +230,15 @@ namespace april
         
         Symbol* sym = context.getStackFunc()->top()->runCode(context);
 
-		if (tmp_block != nullptr)
-			context.getStackFunc()->top()->getBlock()->locals = tmp_vector;
+		/*if (tmp_block != nullptr)
+			context.getStackFunc()->top()->getBlock()->locals = tmp_vector;*/
 
         if (sym == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el sym es igual a nulo en la llamada de la funcion '"+ident->getName()+"'.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         
         if (context.getStackFunc() != nullptr && !context.getStackFunc()->empty())

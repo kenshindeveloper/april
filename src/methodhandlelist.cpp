@@ -20,9 +20,10 @@ namespace april
                 tmp = list::size(sym_expr);
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         }        
         else if (ident_method->getName() == "append")
@@ -34,9 +35,10 @@ namespace april
             }
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         } 
         else if (ident_method->getName() == "index")
@@ -48,9 +50,10 @@ namespace april
             }
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         }
         else if (ident_method->getName() == "remove")
@@ -60,18 +63,20 @@ namespace april
                 Symbol* sym = (*args)[0]->codeGen(context);
                 if (sym->type != Type::INTEGER)
                 {
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el parametro debe ser tipo entero en el metodo '"+ident_method->getName()+"'.\n");
-                    context.addError();
-                    return nullptr;
+					if (context.getError() == 0)
+						return Error::call(context, 7, april_errors->file_name, april_errors->line, ident_method->getName());
+					else
+						return nullptr;
                 }
 
                 Symbol* size = list::size(sym_expr);
                 if (sym->value._ival >= size->value._ival || sym->value._ival < 0)
                 {
                     delete size;
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: indice fuera del rango.\n");
-                    context.addError();
-                    return nullptr;
+					if (context.getError() == 0)
+						return Error::call(context, 72, april_errors->file_name, april_errors->line, ident_method->getName());
+					else
+						return nullptr;
                 }
 
                 delete size;
@@ -79,16 +84,18 @@ namespace april
             }
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         }
         else
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el nombre '"+ident_method->getName()+"' no esta definida como metodo en tipo list.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 134, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         return tmp;

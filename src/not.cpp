@@ -9,11 +9,20 @@ namespace april
     {
         Symbol* sym_expr = expr->codeGen(context);
 
+		if (sym_expr == nullptr)
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
+
         if (sym_expr->type != Type::BOOLEAN)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato no booleano.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 62, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
         }
         Symbol* tmp = new Symbol{};
         tmp->type = sym_expr->type;

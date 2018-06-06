@@ -4,7 +4,6 @@ namespace april
 {
     ExprStatement::~ExprStatement()
     {
-        
     }
     
     Symbol* ExprStatement::codeGen(CodeGenContext& context)

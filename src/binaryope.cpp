@@ -9,22 +9,21 @@ namespace april
     {
         Symbol* value_left = left->codeGen(context);
         Symbol* value_right = right->codeGen(context);
-
-        // std::cout << "left: " << value_left->value._ival << std::endl;
-
         Symbol* tmp = new Symbol{};
 
         if ((Type::STRING == value_left->type) && (Type::STRING == value_right->type) && (ope != OPE::PLUS))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: los datos tipo string no poseen un manejo logico con ese operador.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 42, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
         }
         else if((Type::STRING != value_left->type && Type::STRING == value_right->type) || (Type::STRING == value_left->type && Type::STRING != value_right->type) )
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de datos inoperables.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 42, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
         }
        
         switch (ope)
@@ -44,9 +43,10 @@ namespace april
             case OPE::DIV:
                 if ((value_right->type == Type::INTEGER && value_right->value._ival == 0) || (value_right->type == Type::DOUBLE && value_right->value._dval == 0))
                 {
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede dividir por cero.\n");
-                    context.addError();
-                    return nullptr;
+					if (context.getError() == 0)
+						return Error::call(context, 43, april_errors->file_name, april_errors->line, "");
+					else
+						return nullptr;
                 }
                 tmp = *value_left / *value_right;
                 break;
@@ -54,9 +54,10 @@ namespace april
             case OPE::MOD:
                 if (value_left->type != Type::INTEGER || value_right->type != Type::INTEGER || value_right->value._ival == 0)
                 {
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el operador '%'  los operandos deben ser tipo 'int' y != 0 .\n");
-                    context.addError();
-                    return nullptr;
+                    if (context.getError() == 0)
+						return Error::call(context, 42, april_errors->file_name, april_errors->line, "");
+					else
+	                    return nullptr;
                 }
                 tmp = *value_left % *value_right;
                 break;

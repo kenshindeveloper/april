@@ -9,9 +9,10 @@ namespace april
     {
         if (name != "false" && name != "true")
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el tipo de dato '"+name+"' no esta definido dentro de boolean.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 61, april_errors->file_name, april_errors->line, "'"+name+"'");
+			else
+				return nullptr;
         }
 
         Symbol* tmp = new Symbol{};

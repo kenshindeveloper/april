@@ -90,8 +90,8 @@ int main(int argc, char* argv[])
         {
             CodeGenContext* context = new CodeGenContext{};
             bool result = context->runCode(programBlock);
-            if (result)
-                std::cout << "Compilacion con errores\n" << std::endl;
+            /*if (result)
+                std::cout << "Compilacion con errores\n" << std::endl;*/
 
 			//std::cout << "inicio del destructor del bloque principal..." << std::endl;
 

@@ -8,7 +8,6 @@ namespace april
 {
     If::~If()
     {
-        // std::cout << "destructo IF" << std::endl;
         if (_then != nullptr)
         {
             delete _then;
@@ -27,11 +26,20 @@ namespace april
         Symbol* sym_expr = expr->codeGen(context);
         Symbol* result = new Symbol{};
 
+		if (sym_expr == nullptr)
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
+
         if (sym_expr->type != Type::BOOLEAN)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la expresion no es un boolean.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 62, april_errors->file_name, april_errors->line, sym_expr->name);
+			else
+	            return nullptr;
         }
 
         if (sym_expr->value._bval == true)
@@ -69,12 +77,6 @@ namespace april
 				_else->prev = tmp_block;
         }
 
-        // if (result == nullptr)
-        //     std::cout << "result es NULO (IF)" << std::endl;
-        // else
-        //     std::cout << "result (IF): " << *result << std::endl;
-        // std::cout << "fin if" << std::endl;
-        
         return result;
     }
 }

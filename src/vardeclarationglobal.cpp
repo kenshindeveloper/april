@@ -30,39 +30,44 @@ namespace april
     {
         if (context.scope_type != Scope::BLOCK)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: las variable globales deben declarase en el ambito principal.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 9, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
 
         if (context.existIdenGlobals(ident->getName()) != nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la variable global '"+ident->getName()+"' ya existe\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 8, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         
         if (context.typeOf(type->getName()) == Type::UNDEFINED)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipo de dato indefinido.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 61, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
 
         Type tmp_type = context.typeOf(type->getName());
         Symbol* sym_expr = expr->codeGen(context);
         if (sym_expr == nullptr)
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: expresion nula en asignacion global.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
 
         if ((tmp_type != sym_expr->type) && !(tmp_type == Type::DOUBLE && sym_expr->type == Type::INTEGER))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: no se puede establecer la asignacion, tipos de datos distintos.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 23, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         
         Symbol* sym = new Symbol{};
@@ -79,8 +84,6 @@ namespace april
         sym->prox = sym_expr->prox;
         sym->down = sym_expr->down;
         context.getGlobals().push_back(sym);
-
-
         return sym;
     }
 }

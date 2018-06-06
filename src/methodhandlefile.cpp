@@ -21,9 +21,10 @@ namespace april
                 tmp = file::close(sym_expr);
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         }
         else if (ident_method->getName() == "is_open")
@@ -32,9 +33,10 @@ namespace april
                 tmp = file::is_open(sym_expr);
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         }
         else if (ident_method->getName() == "write")
@@ -44,17 +46,19 @@ namespace april
                 Symbol* str = (*args)[0]->codeGen(context);
                 if (str->type != Type::STRING)
                 {
-                    printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: tipos de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                    context.addError();
-                    return nullptr;
+					if (context.getError() == 0)
+						return Error::call(context, 133, april_errors->file_name, april_errors->line, ident_method->getName());
+					else
+						return nullptr;
                 }
                 tmp = file::write(sym_expr, *str->value._sval);
             }
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         }
         else if (ident_method->getName() == "readline")
@@ -63,9 +67,10 @@ namespace april
                 tmp = file::readline(sym_expr);
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
 
 			
@@ -76,16 +81,18 @@ namespace april
                 tmp = file::is_eof(sym_expr);
             else
             {
-                printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: numero de parametros incorrectos en la llamada del metodo '"+ident_method->getName()+"'.\n");
-                context.addError();
-                return nullptr;
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident_method->getName());
+				else
+					return nullptr;
             }
         }
         else
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: el nombre '"+ident_method->getName()+"' no esta definida como metodo en tipo stream.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 134, april_errors->file_name, april_errors->line, ident_method->getName());
+			else
+				return nullptr;
         }
 
         return tmp;

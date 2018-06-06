@@ -174,7 +174,6 @@ namespace april
             tmp->value._sval = str4;
             tmp->is_constant = true;
             tmp->is_variable= false;
-            //std::cout <<"Symbol - > "<< *tmp << std::endl;
         }
                 
         return tmp;

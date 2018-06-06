@@ -7,7 +7,6 @@ namespace april
 {
     Function::~Function()
     {
-		//std::cout << "inicio destructor fn: " << ident->getName() << std::endl;
         if (is_tmp && last != nullptr)
         {
             delete last;
@@ -37,7 +36,6 @@ namespace april
                 }
             }
         }        
-		//std::cout << "fin destructor fn..." << std::endl;
     }
 
     Symbol* Function::codeGen(CodeGenContext& context)
@@ -45,16 +43,18 @@ namespace april
         
         if (context.getCurrentBlock()->existFunction(ident->getName()))
         {
-            printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '"+ident->getName()+"' ya existe.\n");
-            context.addError();
-            return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 131, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
         }
         
 		if (context.getStackFunc() != nullptr && context.getStackFunc()->top()->getName() == ident->getName())
 		{
-			printError(april_errors->file_name + ":" + std::to_string(april_errors->line) + " error: la funcion '" + ident->getName() + "' no se puede declarar dentro del bloque.\n");
-			context.addError();
-			return nullptr;
+			if (context.getError() == 0)
+				return Error::call(context, 131, april_errors->file_name, april_errors->line, ident->getName());
+			else
+				return nullptr;
 		}
 
 		context.getCurrentBlock()->addFunction(ident->getName(), this);
@@ -69,7 +69,6 @@ namespace april
 
 			aux = aux->prev;
 		}
-
 
         last = new Symbol{};
         return last;

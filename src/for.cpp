@@ -45,11 +45,6 @@ namespace april
 		else
 			block->prev = tmp_block;
 
-        // if (result == nullptr)
-        //     std::cout << "result es NULO (FOR)" << std::endl;
-        // else
-        //     std::cout << "result (FOR): " << *result << std::endl;
-
         return result;     
     }
 }
