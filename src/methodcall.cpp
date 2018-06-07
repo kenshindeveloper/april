@@ -113,7 +113,21 @@ namespace april
 					return nullptr;
             }
         }     
-
+		else if (ident->getName() == "time")
+		{
+			if (args->size() == 0)
+			{
+				Symbol* tmp = time::time();
+				return tmp;
+			}
+			else
+			{
+				if (context.getError() == 0)
+					return Error::call(context, 132, april_errors->file_name, april_errors->line, ident->getName());
+				else
+					return nullptr;
+			}
+		}
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------
         //----------------------------------------------------------------------------------

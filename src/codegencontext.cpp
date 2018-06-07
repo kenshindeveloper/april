@@ -144,6 +144,9 @@ namespace april
         else if (type == "stream")
             return Type::FILE;
 
+		else if (type == "datatime")
+			return Type::DATATIME;
+
         return Type::UNDEFINED;
     }
 

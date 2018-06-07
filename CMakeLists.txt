@@ -69,6 +69,7 @@ set(SOURCES_COMMON
             src/methodhandleio.cpp
             src/methodhandlelist.cpp
             src/methodhandlestring.cpp
+            src/methodhandletime.cpp
             src/methodstruct.cpp
             src/msg.cpp
             src/not.cpp
@@ -113,6 +114,7 @@ set(HEADER_COMMON
             headers/methodhandleio.hpp
             headers/methodhandlelist.hpp
             headers/methodhandlestring.hpp
+            headers/methodhandletime.hpp
             headers/methodstruct.hpp
             headers/msg.hpp
             headers/node.hpp

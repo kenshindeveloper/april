@@ -8,7 +8,7 @@ namespace april
 {
     MethodHandleFile::~MethodHandleFile()
     {
-        //falta limpieza de punteros... :(
+     
     }
 
     Symbol* MethodHandleFile::codeGen(CodeGenContext& context)

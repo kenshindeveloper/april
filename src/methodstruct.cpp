@@ -2,6 +2,7 @@
 #include "../headers/methodhandlelist.hpp"
 #include "../headers/methodhandlestring.hpp"
 #include "../headers/methodhandlefile.hpp"
+#include "../headers/methodhandletime.hpp"
 #include "../headers/codegencontext.hpp"
 
 extern april::STRUCINFO* april_errors;
@@ -37,8 +38,6 @@ namespace april
         {
             MethodHandleList* methodhandlelist = new MethodHandleList(sym_expr, ident_method, args);
             tmp = methodhandlelist->codeGen(context);
-            // context.getCurrentBlock()->cont_tmp += 1;
-            // context.getCurrentBlock()->locals.push_back(tmp);
             delete methodhandlelist;
             methodhandlelist = nullptr;
         }
@@ -46,8 +45,6 @@ namespace april
         {
             MethodHandleString* methodhandlestring = new MethodHandleString(sym_expr, ident_method, args);
             tmp = methodhandlestring->codeGen(context);
-            // context.getCurrentBlock()->cont_tmp += 1;
-            // context.getCurrentBlock()->locals.push_back(tmp);
             delete methodhandlestring;
             methodhandlestring = nullptr;
         }
@@ -55,11 +52,16 @@ namespace april
         {
             MethodHandleFile* methodhandlefile = new MethodHandleFile(sym_expr, ident_method, args);
             tmp = methodhandlefile->codeGen(context);
-            // context.getCurrentBlock()->cont_tmp += 1;
-            // context.getCurrentBlock()->locals.push_back(tmp);
             delete methodhandlefile;
             methodhandlefile = nullptr;
         }
+		else if (sym_expr->type == Type::DATATIME)
+		{
+			MethodHandleTime* methodhandletime = new MethodHandleTime(sym_expr, ident_method, args);
+			tmp = methodhandletime->codeGen(context);
+			delete methodhandletime;
+			methodhandletime = nullptr;
+		}
         else
         {
 			if (context.getError() == 0)

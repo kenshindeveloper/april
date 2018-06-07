@@ -54,6 +54,14 @@ namespace april
         Symbol* range(Symbol*);
         Symbol* range(Symbol*, Symbol*);
     }
+
+	namespace time
+	{
+		Symbol* time();
+		Symbol* day();
+		Symbol* month();
+		Symbol* year();
+	}
 }
 
 #endif //FUNC_LIST_HPP

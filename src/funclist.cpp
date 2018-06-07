@@ -1,6 +1,8 @@
-#include <regex>
-#include <fstream>
+#pragma warning(disable: 4996)
 #include <string.h>
+#include <fstream>
+#include <ctime>
+#include <regex>
 #include "../headers/funclist.hpp"
 
 namespace april
@@ -417,4 +419,62 @@ namespace april
             return tmp;
         }
     }
+
+	namespace time
+	{
+		Symbol* time()
+		{
+			Symbol* root = new Symbol{};
+			root->name = "%_datatime_%";
+			root->type = Type::DATATIME;
+			root->value._ival = 1;
+			
+			return root;
+		}
+
+		Symbol* day()
+		{
+			time_t now = std::time(0);
+			tm* t = localtime(&now);
+
+			Symbol* tmp = new Symbol{};
+			tmp->name = "%_int_%";
+			tmp->type = Type::INTEGER;
+			tmp->is_constant = true;
+			tmp->is_variable = false;
+			tmp->value._ival = t->tm_wday;
+			
+			return tmp;
+		}
+
+		Symbol* month()
+		{
+			time_t now = std::time(0);
+			tm* t = localtime(&now);
+
+			Symbol* tmp = new Symbol{};
+			tmp->name = "%_int_%";
+			tmp->type = Type::INTEGER;
+			tmp->is_constant = true;
+			tmp->is_variable = false;
+			tmp->value._ival = t->tm_mon;
+
+			return tmp;
+		}
+		
+		Symbol* year()
+		{
+			time_t now = std::time(0);
+			tm* t = localtime(&now);
+
+			Symbol* tmp = new Symbol{};
+			tmp->name = "%_int_%";
+			tmp->type = Type::INTEGER;
+			tmp->is_constant = true;
+			tmp->is_variable = false;
+			tmp->value._ival = t->tm_year;
+
+			return tmp;
+		}
+	}
 }

@@ -16,7 +16,8 @@ namespace april
         STRING,
         LIST,
         LIST_DOWN,
-        FILE
+        FILE,
+		DATATIME
     };
 
     union Value
