@@ -27,6 +27,10 @@ namespace april
 		case(3): msg += Msg::M003 + name; break;
 		case(4): msg += Msg::M004; break;
 		case(5): msg += Msg::M005; break;
+		case(6): msg += Msg::M006; break;
+		case(7): msg += Msg::M007; break;
+		case(8): msg += Msg::M008; break;
+		case(9): msg += Msg::M009; break;
 
 			// [11-20] node -> statemente -> vardeclarationdeduce
 		case(11): msg += Msg::M011 + name; break;
@@ -46,12 +50,19 @@ namespace april
 
 			// [41-50] node -> expression -> BinaryOperator
 		case(41): msg += Msg::M041; break;
+		case(42): msg += Msg::M042 + name; break;
+		case(43): msg += Msg::M043 + name; break;
 
 			// [51-60] node -> expression -> Block
 
 			// [61-70] node -> expression -> Boolean
-
-			// [71-80] node -> expression -> CodeGenContext
+		case(61): msg += Msg::M061; break;
+		case(62): msg += Msg::M062; break;
+		case(63): msg += Msg::M063; break;
+		case(64): msg += Msg::M064; break;
+			// [71-80] node -> expression -> ListAccess
+		case(71): msg += Msg::M071; break;
+		case(72): msg += Msg::M072; break;
 
 			// [81-90] node -> expression -> ComparasionOpe
 		case(81): msg += Msg::M081; break;
@@ -68,11 +79,13 @@ namespace april
 		case(121): msg += Msg::M121; break;
 		case(122): msg += Msg::M122; break;
 		case(123): msg += Msg::M123; break;
+		case(124): msg += Msg::M124; break;
 
 			// [131-140] node -> expression -> Function
 		case(131): msg += Msg::M131 + name; break;
 		case(132): msg += Msg::M132 + name; break;
 		case(133): msg += Msg::M133; break;
+		case(134): msg += Msg::M134 + name; break;
 
 			// [141-150] node -> expression -> Identifier
 		case(141): msg += Msg::M141 + name; break;

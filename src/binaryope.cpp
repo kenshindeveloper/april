@@ -63,11 +63,25 @@ namespace april
                 break;
             
             case OPE::AND:
+				if (value_left->type != Type::BOOLEAN || value_right->type != Type::BOOLEAN)
+				{
+					if (context.getError() == 0)
+						return Error::call(context, 62, april_errors->file_name, april_errors->line, "");
+					else
+						return nullptr;
+				}
                 tmp->value._bval = *value_left && *value_right;
                 tmp->type = Type::BOOLEAN;
                 break;
             
             case OPE::OR:
+				if (value_left->type != Type::BOOLEAN || value_right->type != Type::BOOLEAN)
+				{
+					if (context.getError() == 0)
+						return Error::call(context, 62, april_errors->file_name, april_errors->line, "");
+					else
+						return nullptr;
+				}
                 tmp->value._bval = *value_left || *value_right;
                 tmp->type = Type::BOOLEAN;
                 break;

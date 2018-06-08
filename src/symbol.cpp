@@ -239,22 +239,12 @@ namespace april
 
     bool Symbol::operator&& (const Symbol& sym)
     {
-        if (this->type == sym.type && this->type == Type::BOOLEAN)
-        {
-            return this->value._bval && sym.value._bval;
-        }
-
-        return false;
+		return this->value._bval && sym.value._bval;
     }
 
     bool Symbol::operator|| (const Symbol& sym)
     {
-        if (this->type == sym.type && this->type == Type::BOOLEAN)
-        {
-            return this->value._bval || sym.value._bval;
-        }
-
-        return false;
+		return this->value._bval || sym.value._bval;
     }
 
     void Symbol::operator= (const Symbol& sym)

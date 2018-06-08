@@ -214,8 +214,12 @@ namespace april
             if (element->type == Type::INTEGER)
                 tmp->value._ival = element->value._ival;
             
+			else if (element->type == Type::DOUBLE)
+				tmp->value._ival = int(element->value._dval);
+
             else if (element->type == Type::STRING)
                 tmp->value._ival = int(std::atoi(element->value._sval->c_str()));
+
             
             return tmp;
         }

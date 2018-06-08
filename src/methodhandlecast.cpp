@@ -54,15 +54,31 @@ namespace april
         Symbol* tmp = nullptr;
         if (ident_method->getName() == "double")
         {
-            tmp = cast::toDouble(sym_arg);
+			if (sym_arg->type == Type::DOUBLE || sym_arg->type == Type::INTEGER)
+				tmp = cast::toDouble(sym_arg);
+			else
+			{
+				if (context.getError() == 0)
+					return Error::call(context, 42, april_errors->file_name, april_errors->line, "");
+				else
+					return nullptr;
+			}
         } 
         else if (ident_method->getName() == "str")
         {
-            tmp = cast::toString(sym_arg);
+			if (sym_arg->type == Type::DOUBLE || sym_arg->type == Type::INTEGER || sym_arg->type == Type::STRING)
+				tmp = cast::toString(sym_arg);
+			else
+			{
+				if (context.getError() == 0)
+					return Error::call(context, 42, april_errors->file_name, april_errors->line, "");
+				else
+					return nullptr;
+			}
         }
         else if (ident_method->getName() == "int")
         {
-            if (sym_arg->type != Type::DOUBLE)
+            if (sym_arg->type == Type::DOUBLE || sym_arg->type == Type::INTEGER)
                 tmp = cast::toInt(sym_arg);
             else    
             {
