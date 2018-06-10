@@ -50,9 +50,18 @@ namespace april
         {
             StringArray* tmp = new StringArray(ident, expr_index);
             sym_expr = tmp->codeGen(context);
+
+			if (sym_expr == nullptr)
+			{
+				if (context.getError() == 0)
+					return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+				else
+					return nullptr;
+			}
+
             return sym_expr;
         }
- 
+
         Symbol* sym_index = expr_index->codeGen(context);
         if (sym_index->type != Type::INTEGER)
         {

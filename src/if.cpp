@@ -24,7 +24,6 @@ namespace april
     Symbol* If::codeGen (CodeGenContext& context)
     {
         Symbol* sym_expr = expr->codeGen(context);
-        Symbol* result = new Symbol{};
 
 		if (sym_expr == nullptr)
 		{
@@ -33,6 +32,7 @@ namespace april
 			else
 				return nullptr;
 		}
+        Symbol* result = new Symbol{};
 
         if (sym_expr->type != Type::BOOLEAN)
         {

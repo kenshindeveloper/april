@@ -12,7 +12,22 @@ namespace april
     Symbol* BooleanCmp::codeGen(CodeGenContext& context)
     {
         Symbol* sym_left = left->codeGen(context);
+		if (sym_left == nullptr)
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
+
         Symbol* sym_right = right->codeGen(context);
+		if (sym_right == nullptr)
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
 
         Symbol* tmp = new Symbol{};
         tmp->type = Type::BOOLEAN;

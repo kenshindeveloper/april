@@ -36,7 +36,8 @@ namespace april
 
         Symbol* tmp = nullptr;
         Expression* expr_arg = nullptr;
-        Symbol* sym_arg = sym_arg = (*args)[0]->codeGen(context);
+
+        Symbol* sym_arg = (*args)[0]->codeGen(context);
     
         if (sym_arg == nullptr)
         {
