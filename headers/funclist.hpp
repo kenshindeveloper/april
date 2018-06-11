@@ -21,7 +21,7 @@ namespace april
 
     namespace string
     {
-        Symbol* size(Symbol*);
+        Symbol* length(Symbol*);
         bool isNumber(Symbol*);
     }
 

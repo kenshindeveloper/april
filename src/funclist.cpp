@@ -159,7 +159,7 @@ namespace april
 
     namespace string
     {
-        Symbol* size(Symbol* root)
+        Symbol* length(Symbol* root)
         {
             Symbol* tmp = new Symbol{};
             tmp->name = "";

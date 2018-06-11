@@ -51,6 +51,8 @@ namespace april
         
             result = _then->codeGen(context); 
             
+
+			_then->locals.clear();
 			if (context.getStackFunc() == nullptr || (context.getStackFunc() != nullptr && !context.getStackFunc()->top()->isTmp()))
 			{
 				context.popCurrentBlock();
@@ -68,6 +70,7 @@ namespace april
 
             result = _else->codeGen(context);
             
+			_else->locals.clear();
 			if (context.getStackFunc() == nullptr || (context.getStackFunc() != nullptr && !context.getStackFunc()->top()->isTmp()))
 			{
 				context.popCurrentBlock();

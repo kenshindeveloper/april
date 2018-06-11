@@ -50,14 +50,12 @@ namespace april
 
         while (sym_expr->value._bval && !block->stop)
         {
-
             result = block->codeGen(context);
             if (result == nullptr)
                 return nullptr;
                 
             if (!block->stop)
                 sym_expr = expr->codeGen(context);
-                
         }
 
         block->stop = false;

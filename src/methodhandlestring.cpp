@@ -15,10 +15,10 @@ namespace april
     Symbol* MethodHandleString::codeGen(CodeGenContext& context)
     {
         Symbol* tmp = nullptr;
-        if (ident_method->getName() == "size")
+        if (ident_method->getName() == "length")
         {
             if (args->size() == 0)
-                tmp = string::size(sym_expr);
+                tmp = string::length(sym_expr);
             else
             {
 				if (context.getError() == 0)
