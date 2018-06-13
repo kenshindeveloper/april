@@ -1,6 +1,8 @@
 #include "../headers/list.hpp"
 #include "../headers/codegencontext.hpp"
 
+extern april::STRUCINFO* april_errors;
+
 namespace april
 {
     List::~List()
@@ -30,18 +32,25 @@ namespace april
                 aux->type = Type::LIST_DOWN;
                 aux->down = tmp;
             }
-            else
+            else if (tmp->type != Type::DOUBLE && tmp->type != Type::INTEGER && tmp->type != Type::STRING)
             {
-                Symbol* _new = new Symbol{};
-                _new->name = "%_tmp_%";
-                _new->type = tmp->type;
-                _new->value = tmp->value;
-                _new->is_constant = true;
-                _new->is_variable = false;
-                _new->in_list = true;
-                aux->prox = _new;
-                aux = aux->prox;
+				if (context.getError() == 0)
+					return Error::call(context, 23, april_errors->file_name, april_errors->line, "");
+				else
+					return nullptr;
             }
+			else 
+			{
+				Symbol* _new = new Symbol{};
+				_new->name = "%_tmp_%";
+				_new->type = tmp->type;
+				_new->value = tmp->value;
+				_new->is_constant = true;
+				_new->is_variable = false;
+				_new->in_list = true;
+				aux->prox = _new;
+				aux = aux->prox;
+			}
         }
 
         return root;

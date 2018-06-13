@@ -7,7 +7,7 @@ namespace april
 {
     Symbol* AssigBioperator::codeGen(CodeGenContext& context)
     {
-		if (!context.existIdenLocals(ident->getName()))
+		if (context.existIdenLocals(ident->getName()) == nullptr)
 		{
 			if (context.getError() == 0)
 				return Error::call(context, 32, april_errors->file_name, april_errors->line, ident->getName());
@@ -15,7 +15,7 @@ namespace april
 				return nullptr;
 		}
 
-        Symbol*& symbol = context.findIdentLocals(ident->getName());
+        Symbol* symbol = context.existIdenLocals(ident->getName());
         Symbol* sym_expr = expr->codeGen(context);
 
 		if ((symbol->type != sym_expr->type) && !(symbol->type == Type::DOUBLE && sym_expr->type == Type::INTEGER))
@@ -25,9 +25,8 @@ namespace april
 			else
 				return nullptr;
 		}
-        
-        Symbol* tmp = new Symbol{};
 
+        Symbol* tmp = new Symbol{};
         switch (ope)
         {
             case OPE::PLUS:

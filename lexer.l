@@ -40,6 +40,7 @@
     #include "headers/methodhandleio.hpp"
     #include "headers/vardeclarationglobal.hpp"
     #include "headers/foriteration.hpp"
+    #include "headers/fordecl.hpp"
     
     #include "parser.h"
 

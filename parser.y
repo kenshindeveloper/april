@@ -40,6 +40,7 @@
     #include "headers/methodhandlefile.hpp"
     #include "headers/vardeclarationglobal.hpp"
     #include "headers/foriteration.hpp"
+    #include "headers/fordecl.hpp"
     
     using namespace april;
 
@@ -75,7 +76,7 @@
 
 %type <ident> ident
 %type <expr> expr basic binary_ope method_call boolean_expr logic_ope list_expr list_access
-%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg  return break
+%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg  return break var_decl_for
 %type <block> program stmts block
 %type <exprvec> call_args list_elements
 %type <token> comparasion;
@@ -122,9 +123,13 @@ fn_args: %empty                             { $$ = new april::VarList(); }
 var_decl_arg: ident TCOLON ident            { $$ = new april::VarDeclaration{$1, $3};}
     ;
 
-for: TFOR expr block                        { $$ = new april::For{$2, $3}; }
-    | TFOR ident TIN expr block             { $$ = new april::ForIteration{$2, $4, $5}; } 
+for: TFOR expr block									{ $$ = new april::For{$2, $3}; }
+    | TFOR ident TIN expr block							{ $$ = new april::ForIteration{$2, $4, $5}; } 
+    | TFOR var_decl_for TSC expr TSC expr block			{ $$ = new april::ForDecl{$2, $4, $6, $7}; } 
     ;
+
+var_decl_for: ident TCOEQU expr							{ $$ = new april::VarDeclarationDeduce{$1, $3}; }
+	;
 
 conditional: TIF expr block					{ $$ = new april::If{$2, $3}; }
 	| TIF expr block TELSE block			{ $$ = new april::If{$2, $3, $5}; }

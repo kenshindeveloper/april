@@ -55,6 +55,7 @@ set(SOURCES_COMMON
             src/error.cpp
             src/exprstatement.cpp
             src/for.cpp
+            src/fordecl.cpp
             src/foriteration.cpp
             src/funclist.cpp
             src/function.cpp
@@ -100,6 +101,7 @@ set(HEADER_COMMON
             headers/expression.hpp
             headers/exprstatement.hpp
             headers/for.hpp
+            headers/fordecl.hpp
             headers/foriteration.hpp
             headers/funclist.hpp
             headers/function.hpp
