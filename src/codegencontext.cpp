@@ -175,17 +175,13 @@ namespace april
         }
     }
 
-    //OJO CON BREAK -- SE ELIMINA BLOQUES -- U.U
     void CodeGenContext::stopBreakBlock()
     {
         Block* aux = current_block;
-        Block* tmp = nullptr;
         while (aux != nullptr && aux->prev != nullptr && aux->type_scope != BlockScope::FOR)
         {
             aux->stop = true;
-            tmp = aux;
             aux = aux->prev;
-            delete tmp;
         }
         
         if (aux != nullptr)

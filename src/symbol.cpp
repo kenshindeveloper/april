@@ -156,7 +156,7 @@ namespace april
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
         {
             
-            bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
+            bool is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
             tmp->is_variable = false; 
             
@@ -185,7 +185,7 @@ namespace april
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
         {
             tmp = new Symbol{};
-            bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
+            bool is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
             tmp->is_variable = false; 
 
@@ -201,7 +201,7 @@ namespace april
         if ((this->type == Type::INTEGER || this->type == Type::DOUBLE) && (sym.type == Type::INTEGER || sym.type == Type::DOUBLE))
         {
             tmp = new Symbol{};
-            bool is_double = is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
+            bool is_double = (this->type == Type::DOUBLE)?(true):((sym.type == Type::DOUBLE)?(true):(false));
             tmp->type = (is_double)?(Type::DOUBLE):(Type::INTEGER);
             tmp->is_variable = false; 
 

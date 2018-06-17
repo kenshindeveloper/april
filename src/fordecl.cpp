@@ -17,7 +17,14 @@ namespace april
 		block->prev = context.getCurrentBlock();
 		Block* tmp_block = context.getCurrentBlock();
 		context.setCurrentBlock(block);
-		declaration->codeGen(context);
+		Symbol* sym_decl = declaration->codeGen(context);
+		if (sym_decl == nullptr)
+		{
+			if (context.getError() == 0)
+				return Error::call(context, 6, april_errors->file_name, april_errors->line, "");
+			else
+				return nullptr;
+		}
 
 		Symbol* sym_condition = condition->codeGen(context);
 		if (sym_condition == nullptr)
@@ -58,6 +65,7 @@ namespace april
 			}
 		}
 
+		block->locals.clear();
 		block->stop = false;
 		//context.popCurrentBlock();
 		//--------------------
