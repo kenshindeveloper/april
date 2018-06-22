@@ -1,3 +1,10 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: Ejercicio# 1                               ***
+// **                                                     ***
+// **********************************************************
+
 // var num:int = 13307; //forma explicita
 num := 0; //forma implicita
 // var result:int = num; //forma explicita

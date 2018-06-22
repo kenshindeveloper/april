@@ -1,3 +1,10 @@
+// **********************************************************
+// **                                                     ***
+// **    Programado por Pandicorn & Kenshin Urashima      ***
+// **    Test: Ejercicio# 3                               ***
+// **                                                     ***
+// **********************************************************
+
 entrada := "EL ESTUDIO DIGNIFICA A LA PERSONA";
 salida := "";
 prev := "";
