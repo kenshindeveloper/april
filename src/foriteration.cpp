@@ -29,6 +29,7 @@ namespace april
     Symbol* ForIteration::codeGen(CodeGenContext& context)
     {
         Symbol* sym_expr = expr->codeGen(context);
+
         if (sym_expr == nullptr)
         {
 			if (context.getError() == 0)
@@ -36,6 +37,7 @@ namespace april
 			else
 				return nullptr;
 		}
+
         if (sym_expr->type != Type::LIST)
         {
 			if (context.getError() == 0)
@@ -63,6 +65,7 @@ namespace april
 		}
         
 		Symbol* sym_tmp = sym_expr->prox;
+		if (sym_tmp == nullptr) result = new Symbol{};
         while (sym_tmp != nullptr && !block->stop)
         {
             sym_ident->type = sym_tmp->type;
