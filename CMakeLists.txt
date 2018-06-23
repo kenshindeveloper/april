@@ -52,6 +52,7 @@ set(SOURCES_COMMON
             src/break.cpp
             src/codegencontext.cpp
             src/double.cpp
+            src/elif.cpp
             src/error.cpp
             src/exprstatement.cpp
             src/for.cpp
@@ -97,6 +98,7 @@ set(HEADER_COMMON
             headers/break.hpp
             headers/codegencontext.hpp
             headers/double.hpp
+            headers/elif.hpp
             headers/error.hpp
             headers/expression.hpp
             headers/exprstatement.hpp

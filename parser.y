@@ -41,6 +41,7 @@
     #include "headers/vardeclarationglobal.hpp"
     #include "headers/foriteration.hpp"
     #include "headers/fordecl.hpp"
+    #include "headers/elif.hpp"
     
     using namespace april;
 
@@ -51,6 +52,7 @@
     extern char* yytext;
 
     april::Block* programBlock = nullptr;    
+	
 %}
 
 %union
@@ -61,6 +63,7 @@
     april::Identifier* ident;
     std::vector<april::Expression*> *exprvec;
     std::vector<april::VarDeclaration*> *vardecl;
+	std::vector<april::Statement*> *stmtvec;
     april::VarDeclaration* var_decl;
     std::string* _string;
     int token;
@@ -71,16 +74,17 @@
 %token <token> TLPAREN TRPAREN TLBRACE TRBRACE TPOINT TLBRACKET TRBRACKET
 %token <token> TVAR TEQUAL TCOLON TCOMMA TAND TOR TCOEQU 
 %token <token> TCOMNE TCOMEQ TCOMLE TCOMGE TCOMLT TCOMGT
-%token <token> TIF TELSE TFOR TFN TRETURN TBREAK TIN
+%token <token> TIF TELIF TELSE TFOR TFN TRETURN TBREAK TIN
 %token <token> TASIGPLUS TASIGMINUS TASIGMULT TASIGDIV TNOT
 
 %type <ident> ident
 %type <expr> expr basic binary_ope method_call boolean_expr logic_ope list_expr list_access
-%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg  return break var_decl_for
+%type <stmt> stmt  var_decl conditional for fn_decl var_decl_arg  return break var_decl_for 
 %type <block> program stmts block
 %type <exprvec> call_args list_elements
 %type <token> comparasion;
 %type <vardecl> fn_args;
+%type <stmtvec> conditional_elif
 
 %left TPLUS TMIN
 %left TMUL TDIV
@@ -131,8 +135,14 @@ for: TFOR expr block									{ $$ = new april::For{$2, $3}; }
 var_decl_for: ident TCOEQU expr							{ $$ = new april::VarDeclarationDeduce{$1, $3}; }
 	;
 
-conditional: TIF expr block					{ $$ = new april::If{$2, $3}; }
-	| TIF expr block TELSE block			{ $$ = new april::If{$2, $3, $5}; }
+conditional: TIF expr block								{ $$ = new april::If{$2, $3}; }
+	| TIF expr block TELSE block						{ $$ = new april::If{$2, $3, $5}; }
+	| TIF expr block conditional_elif					{ $$ = new april::ElIf{$2, $3, $4}; }
+	| TIF expr block conditional_elif TELSE block	    { $$ = new april::ElIf{$2, $3, $4, $6}; }
+	;
+
+conditional_elif: TELIF expr block				{ $$ = new april::StatementList(); $$->push_back(new april::ElIf{$2, $3}); }
+	|	conditional_elif TELIF expr block		{ $$->push_back(new april::ElIf{$3, $4}); }
 	;
 
 block: TLBRACE stmts TRBRACE				{ $$ = $2; }

@@ -41,6 +41,7 @@
     #include "headers/vardeclarationglobal.hpp"
     #include "headers/foriteration.hpp"
     #include "headers/fordecl.hpp"
+    #include "headers/elif.hpp"
     
     #include "parser.h"
 
@@ -126,6 +127,7 @@ IDENTIFIER   [a-zA-Z_][a-zA-Z0-9_]*
 "var"               { return TOKEN(TVAR); }
 "for"               { return TOKEN(TFOR); }
 "if"                { return TOKEN(TIF); }
+"elif"                { return TOKEN(TELIF); }
 "else"              { return TOKEN(TELSE); }
 "true"              { SAVE_TOKEN; return TBOOLEAN; }
 "false"             { SAVE_TOKEN; return TBOOLEAN; }

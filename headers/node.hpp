@@ -10,6 +10,7 @@ namespace april
     class CodeGenContext;
     using ExpressionList = std::vector<class Expression*>;
     using VarList = std::vector<class VarDeclaration*>;
+	using StatementList = std::vector<class Statement*>;
 
     typedef struct STRUCINFO
     {
